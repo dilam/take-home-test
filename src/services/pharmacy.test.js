@@ -16,7 +16,7 @@ describe("Pharmacy", () => {
       ).toEqual([new Drug("test", -2, 1)]);
     });
 
-    it("shouldn't decrease the benefit when the value is 0", () => {
+    it("shouldn't decrease the benefit under 0", () => {
       expect(
         new Pharmacy([new Drug("test", 2, 0)]).updateBenefitValue(),
       ).toEqual([new Drug("test", 1, 0)]);
@@ -80,6 +80,32 @@ describe("Pharmacy", () => {
       expect(
         new Pharmacy([new Drug(Drugs.FERVEX, 0, 3)]).updateBenefitValue(),
       ).toEqual([new Drug(Drugs.FERVEX, -1, 0)]);
+    });
+  });
+
+  describe("Herbal Tea", () => {
+    it("should decrease twice the benefit and decrease normally expiresIn", () => {
+      expect(
+        new Pharmacy([new Drug(Drugs.DAFALGAN, 2, 3)]).updateBenefitValue(),
+      ).toEqual([new Drug(Drugs.DAFALGAN, 1, 1)]);
+    });
+
+    it("should decrease by 4 the benefit when expiresIn is negative", () => {
+      expect(
+        new Pharmacy([new Drug(Drugs.DAFALGAN, -1, 4)]).updateBenefitValue(),
+      ).toEqual([new Drug(Drugs.DAFALGAN, -2, 0)]);
+    });
+
+    it("shouldn't decrease the benefit under 0", () => {
+      expect(
+        new Pharmacy([new Drug(Drugs.DAFALGAN, -1, 0)]).updateBenefitValue(),
+      ).toEqual([new Drug(Drugs.DAFALGAN, -2, 0)]);
+    });
+
+    it("should decrease the benefit by 4 when expiresIn is 0", () => {
+      expect(
+        new Pharmacy([new Drug(Drugs.DAFALGAN, 0, 4)]).updateBenefitValue(),
+      ).toEqual([new Drug(Drugs.DAFALGAN, -1, 0)]);
     });
   });
 });
