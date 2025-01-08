@@ -26,7 +26,7 @@ describe("Drug", () => {
   });
 
   it("should decrease expireIn by value", () =>
-    expect(new Drug("test", 2, 3).expireBy(5)).toEqual(
+    expect(new Drug("test", 2, 3).expiresBy(5)).toEqual(
       new Drug("test", -3, 3),
     ));
 });

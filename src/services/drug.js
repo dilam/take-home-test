@@ -25,13 +25,21 @@ export class Drug {
     return this;
   }
 
-  expireBy(value) {
+  expiresBy(value) {
     this.expiresIn -= value;
 
     return this;
   }
 
   isExpired() {
-    return this.expiresIn <= 0;
+    return this.expiresIn < 0;
+  }
+
+  expiresInLessThan(value) {
+    return this.expiresIn < value;
+  }
+
+  isName(...values) {
+    return values.includes(this.name);
   }
 }
