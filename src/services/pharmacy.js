@@ -14,8 +14,11 @@ export class Pharmacy {
 
       if (!drug.isName(Drugs.HERBAL_TEA, Drugs.FERVEX)) {
         let degrade = 1;
+        if (drug.isName(Drugs.DAFALGAN)) {
+          degrade *= 2;
+        }
         if (drug.isExpired()) {
-          degrade = degrade * 2;
+          degrade *= 2;
         }
         drug.decreaseBenefit(degrade);
 
@@ -25,15 +28,15 @@ export class Pharmacy {
       let benefit = 1;
 
       if (drug.isName(Drugs.HERBAL_TEA) && drug.isExpired()) {
-        benefit = benefit * 2;
+        benefit *= 2;
       } else if (drug.isName(Drugs.FERVEX)) {
         if (drug.isExpired()) {
           drug.setBenefit(0);
           continue;
         } else if (drug.expiresInLessThan(5)) {
-          benefit = benefit * 3;
+          benefit *= 3;
         } else if (drug.expiresInLessThan(10)) {
-          benefit = benefit * 2;
+          benefit *= 2;
         }
       }
 
