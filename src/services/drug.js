@@ -6,18 +6,28 @@ export class Drug {
   }
 
   increaseBenefit(value) {
-    if (this.benefit + value <= 50) {
-      this.benefit += value;
+    this.benefit += value;
+
+    if (this.benefit > 50) {
+      this.benefit = 50;
     }
+
+    return this;
   }
 
   decreaseBenefit(value) {
-    if (this.benefit - value >= 0) {
-      this.benefit -= value;
+    this.benefit -= value;
+
+    if (this.benefit < 0) {
+      this.benefit = 0;
     }
+
+    return this;
   }
 
-  expire(value) {
+  expireBy(value) {
     this.expiresIn -= value;
+
+    return this;
   }
 }
