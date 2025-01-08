@@ -21,6 +21,12 @@ describe("Pharmacy", () => {
         new Pharmacy([new Drug("test", 2, 0)]).updateBenefitValue(),
       ).toEqual([new Drug("test", 1, 0)]);
     });
+
+    it("should decrease the benefit twice when expiresIn is 0", () => {
+      expect(
+        new Pharmacy([new Drug("test", 0, 5)]).updateBenefitValue(),
+      ).toEqual([new Drug("test", -1, 3)]);
+    });
   });
 
   describe("Herbal Tea", () => {

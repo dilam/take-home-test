@@ -25,6 +25,10 @@ export class Drug {
     return this;
   }
 
+  setBenefit(value) {
+    this.benefit = value;
+  }
+
   expiresBy(value) {
     this.expiresIn -= value;
 

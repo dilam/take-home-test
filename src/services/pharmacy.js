@@ -1,7 +1,4 @@
 import { Drugs } from "../constants/drug";
-
-const SPECIAL_DRUGS = [Drugs.HERBAL_TEA, Drugs.FERVEX];
-
 export class Pharmacy {
   constructor(drugs = []) {
     this.drugs = drugs;
@@ -15,7 +12,7 @@ export class Pharmacy {
 
       drug.expiresBy(1);
 
-      if (!drug.isName(...SPECIAL_DRUGS)) {
+      if (!drug.isName(Drugs.HERBAL_TEA, Drugs.FERVEX)) {
         let degrade = 1;
         if (drug.isExpired()) {
           degrade = degrade * 2;
@@ -25,23 +22,22 @@ export class Pharmacy {
         continue;
       }
 
-      drug.increaseBenefit(1);
-      if (drug.isName(Drugs.FERVEX)) {
-        if (drug.expiresIn < 10) {
-          drug.increaseBenefit(1);
-        }
-        if (drug.expiresIn < 5) {
-          drug.increaseBenefit(1);
+      let benefit = 1;
+
+      if (drug.isName(Drugs.HERBAL_TEA) && drug.isExpired()) {
+        benefit = benefit * 2;
+      } else if (drug.isName(Drugs.FERVEX)) {
+        if (drug.isExpired()) {
+          drug.setBenefit(0);
+          continue;
+        } else if (drug.expiresInLessThan(5)) {
+          benefit = benefit * 3;
+        } else if (drug.expiresInLessThan(10)) {
+          benefit = benefit * 2;
         }
       }
 
-      if (drug.expiresIn < 0) {
-        if (drug.isName(Drugs.FERVEX)) {
-          drug.decreaseBenefit(drug.benefit);
-        } else if (drug.isName(Drugs.HERBAL_TEA)) {
-          drug.increaseBenefit(1);
-        }
-      }
+      drug.increaseBenefit(benefit);
     }
 
     return this.drugs;
