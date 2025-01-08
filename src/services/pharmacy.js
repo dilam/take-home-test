@@ -4,40 +4,45 @@ export class Pharmacy {
   constructor(drugs = []) {
     this.drugs = drugs;
   }
+
   updateBenefitValue() {
-    for (var i = 0; i < this.drugs.length; i++) {
-      if (
-        this.drugs[i].name != Drugs.HERBAL_TEA &&
-        this.drugs[i].name != Drugs.FERVEX
-      ) {
-        if (this.drugs[i].name != Drugs.MAGIC_PILL) {
-          this.drugs[i].decreaseBenefit(1);
+    for (const drug of this.drugs) {
+      if (drug.name === Drugs.MAGIC_PILL) {
+        continue;
+      }
+
+      if (drug.name !== Drugs.HERBAL_TEA && drug.name !== Drugs.FERVEX) {
+        let degrade = 1;
+        if (drug.isExpired()) {
+          degrade = degrade * 2;
         }
+        drug.decreaseBenefit(degrade);
+        drug.expireBy(1);
+
+        continue;
+      }
+
+      if (drug.name != Drugs.HERBAL_TEA && drug.name != Drugs.FERVEX) {
+        drug.decreaseBenefit(1);
       } else {
-        this.drugs[i].increaseBenefit(1);
-        if (this.drugs[i].name == Drugs.FERVEX) {
-          if (this.drugs[i].expiresIn < 11) {
-            this.drugs[i].increaseBenefit(1);
+        drug.increaseBenefit(1);
+        if (drug.name == Drugs.FERVEX) {
+          if (drug.expiresIn < 11) {
+            drug.increaseBenefit(1);
           }
-          if (this.drugs[i].expiresIn < 6) {
-            this.drugs[i].increaseBenefit(1);
+          if (drug.expiresIn < 6) {
+            drug.increaseBenefit(1);
           }
         }
       }
-      if (this.drugs[i].name != Drugs.MAGIC_PILL) {
-        this.drugs[i].expireBy(1);
-      }
-      if (this.drugs[i].expiresIn < 0) {
-        if (this.drugs[i].name != Drugs.HERBAL_TEA) {
-          if (this.drugs[i].name != Drugs.FERVEX) {
-            if (this.drugs[i].name != Drugs.MAGIC_PILL) {
-              this.drugs[i].decreaseBenefit(1);
-            }
-          } else {
-            this.drugs[i].decreaseBenefit(this.drugs[i].benefit);
-          }
-        } else {
-          this.drugs[i].increaseBenefit(1);
+
+      drug.expireBy(1);
+
+      if (drug.expiresIn < 0) {
+        if (drug.name === Drugs.FERVEX) {
+          drug.decreaseBenefit(drug.benefit);
+        } else if (drug.name === Drugs.HERBAL_TEA) {
+          drug.increaseBenefit(1);
         }
       }
     }

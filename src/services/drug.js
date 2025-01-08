@@ -30,4 +30,8 @@ export class Drug {
 
     return this;
   }
+
+  isExpired() {
+    return this.expiresIn <= 0;
+  }
 }
