@@ -10,47 +10,34 @@ export class Pharmacy {
         this.drugs[i].name != Drugs.HERBAL_TEA &&
         this.drugs[i].name != Drugs.FERVEX
       ) {
-        if (this.drugs[i].benefit > 0) {
-          if (this.drugs[i].name != Drugs.MAGIC_PILL) {
-            this.drugs[i].benefit = this.drugs[i].benefit - 1;
-          }
+        if (this.drugs[i].name != Drugs.MAGIC_PILL) {
+          this.drugs[i].decreaseBenefit(1);
         }
       } else {
-        if (this.drugs[i].benefit < 50) {
-          this.drugs[i].benefit = this.drugs[i].benefit + 1;
-          if (this.drugs[i].name == Drugs.FERVEX) {
-            if (this.drugs[i].expiresIn < 11) {
-              if (this.drugs[i].benefit < 50) {
-                this.drugs[i].benefit = this.drugs[i].benefit + 1;
-              }
-            }
-            if (this.drugs[i].expiresIn < 6) {
-              if (this.drugs[i].benefit < 50) {
-                this.drugs[i].benefit = this.drugs[i].benefit + 1;
-              }
-            }
+        this.drugs[i].increaseBenefit(1);
+        if (this.drugs[i].name == Drugs.FERVEX) {
+          if (this.drugs[i].expiresIn < 11) {
+            this.drugs[i].increaseBenefit(1);
+          }
+          if (this.drugs[i].expiresIn < 6) {
+            this.drugs[i].increaseBenefit(1);
           }
         }
       }
       if (this.drugs[i].name != Drugs.MAGIC_PILL) {
-        this.drugs[i].expiresIn = this.drugs[i].expiresIn - 1;
+        this.drugs[i].expire(1);
       }
       if (this.drugs[i].expiresIn < 0) {
         if (this.drugs[i].name != Drugs.HERBAL_TEA) {
           if (this.drugs[i].name != Drugs.FERVEX) {
-            if (this.drugs[i].benefit > 0) {
-              if (this.drugs[i].name != Drugs.MAGIC_PILL) {
-                this.drugs[i].benefit = this.drugs[i].benefit - 1;
-              }
+            if (this.drugs[i].name != Drugs.MAGIC_PILL) {
+              this.drugs[i].decreaseBenefit(1);
             }
           } else {
-            this.drugs[i].benefit =
-              this.drugs[i].benefit - this.drugs[i].benefit;
+            this.drugs[i].decreaseBenefit(this.drugs[i].benefit);
           }
         } else {
-          if (this.drugs[i].benefit < 50) {
-            this.drugs[i].benefit = this.drugs[i].benefit + 1;
-          }
+          this.drugs[i].increaseBenefit(1);
         }
       }
     }

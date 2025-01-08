@@ -4,4 +4,20 @@ export class Drug {
     this.expiresIn = expiresIn;
     this.benefit = benefit;
   }
+
+  increaseBenefit(value) {
+    if (this.benefit + value <= 50) {
+      this.benefit += value;
+    }
+  }
+
+  decreaseBenefit(value) {
+    if (this.benefit - value >= 0) {
+      this.benefit -= value;
+    }
+  }
+
+  expire(value) {
+    this.expiresIn -= value;
+  }
 }
