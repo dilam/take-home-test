@@ -1,6 +1,5 @@
 export class Drug {
-  constructor(name, expiresIn, benefit) {
-    this.name = name;
+  constructor(expiresIn, benefit) {
     this.expiresIn = expiresIn;
     this.benefit = benefit;
   }
@@ -43,7 +42,11 @@ export class Drug {
     return this.expiresIn < value;
   }
 
-  isName(...values) {
-    return values.includes(this.name);
+  updateBenefitValue() {
+    if (this.isExpired()) {
+      this.decreaseBenefit(2);
+    } else {
+      this.decreaseBenefit(1);
+    }
   }
 }
